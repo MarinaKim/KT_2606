@@ -10,7 +10,7 @@ namespace KT2
     {
         static void Main(string[] args)
         {
-            task6();
+            task7();
         }
 
         static void task1()
@@ -186,19 +186,72 @@ namespace KT2
             + "{'GroupId':-479,'PriceGroup':5,'MakeLogo':'09','MakeName':'SWAG','DetailNum':'30540009','NewDetailNum':null,'DetailNameRus':'ОПОРА АМОРТИЗАТОРА','PriceLogo':'NALG','DestinationLogo':'CRG','PriceCountry':'Эмираты','LotQuantity':1,'Quantity':0,'DDPercent':85.0,'ADDays':109,'DeliverTimeGuaranteed':109,'ResultPrice':1102.120000},"
             + "{'GroupId':-1220,'PriceGroup':5,'MakeLogo':'ML','MakeName':'Meyle','DetailNum':'1004120007','NewDetailNum':null,'DetailNameRus':'ОПОРА АМОРТИЗАТОРА','PriceLogo':'NALG','DestinationLogo':'CRG','PriceCountry':'Эмираты','LotQuantity':1,'Quantity':0,'DDPercent':29.0,'ADDays':109,'DeliverTimeGuaranteed':109,'ResultPrice':1204.780000}"
             + "],'IsSuccess':true,'ErrorMessage':null,'BlockDateEnd':null}";
+        static string [][] GetData()
+        {
+            string[][] info = new string[250][];
+            emex = emex.Substring(emex.IndexOf('[') + 1, emex.IndexOf(']') - emex.IndexOf('[') - 1);
+            //Console.WriteLine(emex);
+            string[] Data = emex.TrimEnd('}').Split('}');
+
+            //for ( int i=0;i<Data.Length;i++)
+            //{
+            //    string[] mas = Data[i].Split(',');
+            //    Console.WriteLine(mas[4].Trim('\'').Replace("':", ":"));
+            //}
+            int k = 0;
+
+            for (int i = 0; i < Data.Length; i++)
+            {
+                string[] mas = Data[i].Replace("{", "").TrimStart(',').Replace(",{", "").Split(',');
+
+                for (int p = 0; p < mas.Length; p++)
+                {
+                    var data3 = mas[p].Replace("'", "").Split(':');
+                    info[k] = data3;
+                }
+            //    Console.WriteLine(mas[4].Trim('\'').Replace("':", ":"));
+            }
+            return info;
+        }
         static void task6()
         {
-            Console.WriteLine("Введите ");
-            Console.ReadLine();
-            emex = emex.Substring(emex.IndexOf('[')+1, emex.IndexOf(']') - emex.IndexOf('[')-1);
-            Console.WriteLine(emex);
-            string[] Data = emex.TrimEnd('}').Split('}');
-           for ( int i=0;i<Data.Length;i++)
-            {
-                string[] mas = Data[i].Split(',');
-                Console.WriteLine(mas[4].Trim('\'').Replace("':", ":"));
-            }
+            string[][] data = GetData();
 
+            foreach(string[] item in data/*.Where(w=>w!=null)*/)//проверка на пустоту
+            {
+                if(item!=null) //-2-й вариант проверки на наличие значений
+                Console.WriteLine(item[0] + "-" + item[1]);
+            }
+            //Console.WriteLine("Введите ");
+            //Console.ReadLine();
+         //   emex = emex.Substring(emex.IndexOf('[')+1, emex.IndexOf(']') - emex.IndexOf('[')-1);
+            //Console.WriteLine(emex);
+          //  string[] Data = emex.TrimEnd('}').Split('}');
+
+            //for ( int i=0;i<Data.Length;i++)
+            //{
+            //    string[] mas = Data[i].Split(',');
+            //    Console.WriteLine(mas[4].Trim('\'').Replace("':", ":"));
+            //}
+
+            //for (int i = 0; i < Data.Length; i++)
+            //{
+            //    string[] mas = Data[i].Replace("{","").TrimStart(',').Replace(",{","").Split(',');
+
+            //    for (int p = 0; p < mas.Length; p++)
+            //    {
+            //        var data3 = mas[p].Replace("'", "").Split(':');
+            //    }
+            //    Console.WriteLine(mas[4].Trim('\'').Replace("':", ":"));
+            //}
+        }
+
+        static void task7()
+        {
+            string str = string.Format("{0:yyyy-MM-dd}", DateTime.Now);
+            Console.WriteLine(str);
+            Console.WriteLine("{0:##%}", 0.25);
+            Console.WriteLine("{0:###.##}", 134256362.25389289);
         }
     }
 }
